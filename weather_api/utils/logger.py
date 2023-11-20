@@ -9,7 +9,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         RotatingFileHandler(
-            "weatherAPI.log", maxBytes=512000, backupCount=10
+            "logs/weatherAPI.log", maxBytes=512000, backupCount=10
         ),  # File handler to write logs to a file
         logging.StreamHandler(),  # Stream handler to display logs in the console
     ],
