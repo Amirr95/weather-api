@@ -133,30 +133,6 @@ files = [
 ]
 
 [[package]]
-name = "motor"
-version = "3.3.2"
-description = "Non-blocking MongoDB driver for Tornado or asyncio"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "motor-3.3.2-py3-none-any.whl", hash = "sha256:6fe7e6f0c4f430b9e030b9d22549b732f7c2226af3ab71ecc309e4a1b7d19953"},
-    {file = "motor-3.3.2.tar.gz", hash = "sha256:d2fc38de15f1c8058f389c1a44a4d4105c0405c48c061cd492a654496f7bc26a"},
-]
-
-[package.dependencies]
-pymongo = ">=4.5,<5"
-
-[package.extras]
-aws = ["pymongo[aws] (>=4.5,<5)"]
-encryption = ["pymongo[encryption] (>=4.5,<5)"]
-gssapi = ["pymongo[gssapi] (>=4.5,<5)"]
-ocsp = ["pymongo[ocsp] (>=4.5,<5)"]
-snappy = ["pymongo[snappy] (>=4.5,<5)"]
-srv = ["pymongo[srv] (>=4.5,<5)"]
-test = ["aiohttp (<3.8.6)", "mockupdb", "motor[encryption]", "pytest (>=7)", "tornado (>=5)"]
-zstd = ["pymongo[zstd] (>=4.5,<5)"]
-
-[[package]]
 name = "pydantic"
 version = "2.5.1"
 description = "Data validation using Python type hints"
@@ -455,4 +431,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e5602b0c3576d417cacd6c3e59652e158c31f683455f073240b9cac88424b193"
+content-hash = "e016eebe09f7b8c68c5ff756f1a109449ac5e552965c58164e5f0fd617b8b172"
