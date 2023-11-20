@@ -46,8 +46,7 @@ class Database:
                       longitude: float, 
                       latitude: float, 
                       max_distance: float = 10000, 
-                      date: dt.datetime = dt.datetime.now(), 
-                      **kwargs) -> dict:
+                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
         res = self.weather.find_one(
             {
                 "location":
@@ -58,7 +57,7 @@ class Database:
                                 "$maxDistance": max_distance
                             }
                     },
-                "timestamp": date.strftime("%Y%m%d")
+                "timestamp": date
             }
         )
         if res:
@@ -67,7 +66,7 @@ class Database:
             out = {
                 "latitude": res.get("location", {}).get("coordinates")[1],
                 "longitude": res.get("location", {}).get("coordinates")[0],
-                "generation_time": date.strftime('%Y-%m-%d %H:%M'),
+                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
                 "units": {
                     "max_temperature": "°C",
                     "min_temperature": "°C",
@@ -87,7 +86,108 @@ class Database:
             return out
         else:
             return {"msg": "weather data not found"}
+        
+    def query_sp(self, 
+                      longitude: float, 
+                      latitude: float, 
+                      max_distance: float = 10000, 
+                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+        res = self.sp.find_one(
+            {
+                "location":
+                    {
+                        "$nearSphere":
+                            {
+                                "$geometry": {"type": "Point", "coordinates": [longitude, latitude]},
+                                "$maxDistance": max_distance
+                            }
+                    },
+                "timestamp": date
+            }
+        )
+        if res:
+            days = [key.split("=")[1] for key in list(res.keys()) if "Time" in key]
+            f_days = [dt.datetime.strptime(day, "%Y%m%d").strftime("%Y-%m-%d") for day in days]
+            out = {
+                "latitude": res.get("location", {}).get("coordinates")[1],
+                "longitude": res.get("location", {}).get("coordinates")[0],
+                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "sp_advice": {
+                    "dates": f_days,
+                    "advice": [res.get(key, "") for key in list(res.keys()) if key.startswith("Time")],
+                }
+            }
+            return out
+        else:
+            return {"msg": "SP advice was not found"}
 
+    def query_pre_harvest(self, 
+                      longitude: float, 
+                      latitude: float, 
+                      max_distance: float = 10000, 
+                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+        res = self.pre.find_one(
+            {
+                "location":
+                    {
+                        "$nearSphere":
+                            {
+                                "$geometry": {"type": "Point", "coordinates": [longitude, latitude]},
+                                "$maxDistance": max_distance
+                            }
+                    },
+                "timestamp": date
+            }
+        )
+        if res:
+            days = [key.split("=")[1] for key in list(res.keys()) if "Time" in key]
+            f_days = [dt.datetime.strptime(day, "%Y%m%d").strftime("%Y-%m-%d") for day in days]
+            out = {
+                "latitude": res.get("location", {}).get("coordinates")[1],
+                "longitude": res.get("location", {}).get("coordinates")[0],
+                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "pre_harvest_advice": {
+                    "dates": f_days,
+                    "advice": [res.get(key, "") for key in list(res.keys()) if key.startswith("Time")],
+                }
+            }
+            return out
+        else:
+            return {"msg": "pre-harvest advice was not found"}
+        
+    def query_post_harvest(self, 
+                      longitude: float, 
+                      latitude: float, 
+                      max_distance: float = 10000, 
+                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+        res = self.post.find_one(
+            {
+                "location":
+                    {
+                        "$nearSphere":
+                            {
+                                "$geometry": {"type": "Point", "coordinates": [longitude, latitude]},
+                                "$maxDistance": max_distance
+                            }
+                    },
+                "timestamp": date
+            }
+        )
+        if res:
+            days = [key.split("=")[1] for key in list(res.keys()) if "Time" in key]
+            f_days = [dt.datetime.strptime(day, "%Y%m%d").strftime("%Y-%m-%d") for day in days]
+            out = {
+                "latitude": res.get("location", {}).get("coordinates")[1],
+                "longitude": res.get("location", {}).get("coordinates")[0],
+                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "post_harvest_advice": {
+                    "dates": f_days,
+                    "advice": [res.get(key, "") for key in list(res.keys()) if key.startswith("Time")],
+                }
+            }
+            return out
+        else:
+            return {"msg": "post-harvest advice was not found"}
 
 if __name__=="__main__":
     db = Database()
