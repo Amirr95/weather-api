@@ -1,0 +1,16 @@
+version: '3'
+services:
+  weather-api:
+    container_name: weather-api
+    restart: always
+    build: 
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - .:/weather-api
+    environment:
+      - MONGODB_URI=${mongodb_uri}
+    ports:
+      - 8000:8000
+    command: uvicorn weather_api.main:app --host 0.0.0.0 --reload
+    
