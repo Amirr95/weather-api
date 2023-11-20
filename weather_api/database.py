@@ -85,7 +85,7 @@ class Database:
             }
             return out
         else:
-            return {"msg": "weather data not found"}
+            return {}
         
     def query_sp(self, 
                       longitude: float, 
@@ -119,7 +119,7 @@ class Database:
             }
             return out
         else:
-            return {"msg": "SP advice was not found"}
+            return {}
 
     def query_pre_harvest(self, 
                       longitude: float, 
@@ -153,7 +153,7 @@ class Database:
             }
             return out
         else:
-            return {"msg": "pre-harvest advice was not found"}
+            return {}
         
     def query_post_harvest(self, 
                       longitude: float, 
@@ -187,7 +187,7 @@ class Database:
             }
             return out
         else:
-            return {"msg": "post-harvest advice was not found"}
+            return {}
 
 if __name__=="__main__":
     db = Database()
