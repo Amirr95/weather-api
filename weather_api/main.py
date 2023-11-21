@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, status, Depends, Query
 from .database import Database
+import datetime as dt
 
 app = FastAPI(title="Infortech Weather API",
             #   contact={
@@ -24,10 +25,10 @@ async def home():
 async def get_daily_weather(
     long: float = Query(..., description="مقدار طول جغرافیایی نقطه مورد نظر", ge=-180, le=180),
     lat: float = Query(..., description="مقدار عرض جغرافیایی نقطه مورد نظر", ge=-90, le=90),
-    # date: str = Query(..., description="تاریخ مورد نظر. باید مانند 20231120 وارد شود."),
+    date: dt.date = Query(..., description="تاریخ مورد نظر باید به صورت 20-11-2023 وارد شود."),
     db: Database = Depends(get_db)
 ):
-    res = db.query_weather(longitude=long, latitude=lat)
+    res = db.query_weather(longitude=long, latitude=lat, date=date)
     if not res:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -41,10 +42,10 @@ async def get_daily_weather(
 async def get_sp_advice(
     long: float = Query(..., description="مقدار طول جغرافیایی نقطه مورد نظر", ge=-180, le=180),
     lat: float = Query(..., description="مقدار عرض جغرافیایی نقطه مورد نظر", ge=-90, le=90),
-    # date: str = Query(..., description="تاریخ مورد نظر. باید مانند 20231120 وارد شود."),
+    date: dt.date = Query(..., description="تاریخ مورد نظر باید به صورت 20-11-2023 وارد شود."),
     db: Database = Depends(get_db)
 ):
-    res = db.query_sp(longitude=long, latitude=lat)
+    res = db.query_sp(longitude=long, latitude=lat, date=date)
     if not res:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -57,10 +58,10 @@ async def get_sp_advice(
 async def get_pre_harvest_advice(
     long: float = Query(..., description="مقدار طول جغرافیایی نقطه مورد نظر", ge=-180, le=180),
     lat: float = Query(..., description="مقدار عرض جغرافیایی نقطه مورد نظر", ge=-90, le=90),
-    # date: str = Query(..., description="تاریخ مورد نظر. باید مانند 20231120 وارد شود."),
+    date: dt.date = Query(..., description="تاریخ مورد نظر باید به صورت 20-11-2023 وارد شود."),
     db: Database = Depends(get_db)
 ):
-    res = db.query_pre_harvest(longitude=long, latitude=lat)
+    res = db.query_pre_harvest(longitude=long, latitude=lat, date=date)
     if not res:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -73,10 +74,10 @@ async def get_pre_harvest_advice(
 async def get_post_harvest_advice(
     long: float = Query(..., description="مقدار طول جغرافیایی نقطه مورد نظر", ge=-180, le=180),
     lat: float = Query(..., description="مقدار عرض جغرافیایی نقطه مورد نظر", ge=-90, le=90),
-    # date: str = Query(..., description="تاریخ مورد نظر. باید مانند 20231120 وارد شود."),
+    date: dt.date = Query(..., description="تاریخ مورد نظر باید به صورت 20-11-2023 وارد شود."),
     db: Database = Depends(get_db)
 ):
-    res = db.query_post_harvest(longitude=long, latitude=lat)
+    res = db.query_post_harvest(longitude=long, latitude=lat, date=date)
     if not res:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

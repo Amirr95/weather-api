@@ -46,7 +46,7 @@ class Database:
                       longitude: float, 
                       latitude: float, 
                       max_distance: float = 10000, 
-                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+                      date: dt.date = dt.date.today()) -> dict:
         res = self.weather.find_one(
             {
                 "location":
@@ -57,7 +57,7 @@ class Database:
                                 "$maxDistance": max_distance
                             }
                     },
-                "timestamp": date
+                "timestamp": date.strftime("%Y%m%d")
             }
         )
         if res:
@@ -66,7 +66,8 @@ class Database:
             out = {
                 "latitude": res.get("location", {}).get("coordinates")[1],
                 "longitude": res.get("location", {}).get("coordinates")[0],
-                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                # "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "generation_date": dt.datetime.now().strftime('%Y-%m-%d %H:%M'),
                 "units": {
                     "max_temperature": "°C",
                     "min_temperature": "°C",
@@ -91,7 +92,7 @@ class Database:
                       longitude: float, 
                       latitude: float, 
                       max_distance: float = 10000, 
-                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+                      date: dt.date = dt.date.today()) -> dict:
         res = self.sp.find_one(
             {
                 "location":
@@ -102,7 +103,7 @@ class Database:
                                 "$maxDistance": max_distance
                             }
                     },
-                "timestamp": date
+                "timestamp": date.strftime("%Y%m%d")
             }
         )
         if res:
@@ -111,7 +112,8 @@ class Database:
             out = {
                 "latitude": res.get("location", {}).get("coordinates")[1],
                 "longitude": res.get("location", {}).get("coordinates")[0],
-                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                # "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "generation_date": dt.datetime.now().strftime('%Y-%m-%d %H:%M'),
                 "sp_advice": {
                     "dates": f_days,
                     "advice": [res.get(key, "") for key in list(res.keys()) if key.startswith("Time")],
@@ -125,7 +127,7 @@ class Database:
                       longitude: float, 
                       latitude: float, 
                       max_distance: float = 10000, 
-                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+                      date: dt.date = dt.date.today()) -> dict:
         res = self.pre.find_one(
             {
                 "location":
@@ -136,7 +138,7 @@ class Database:
                                 "$maxDistance": max_distance
                             }
                     },
-                "timestamp": date
+                "timestamp": date.strftime("%Y%m%d")
             }
         )
         if res:
@@ -145,7 +147,8 @@ class Database:
             out = {
                 "latitude": res.get("location", {}).get("coordinates")[1],
                 "longitude": res.get("location", {}).get("coordinates")[0],
-                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                # "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "generation_date": dt.datetime.now().strftime('%Y-%m-%d %H:%M'),
                 "pre_harvest_advice": {
                     "dates": f_days,
                     "advice": [res.get(key, "") for key in list(res.keys()) if key.startswith("Time")],
@@ -159,7 +162,7 @@ class Database:
                       longitude: float, 
                       latitude: float, 
                       max_distance: float = 10000, 
-                      date: str = dt.datetime.now().strftime("%Y%m%d")) -> dict:
+                      date: dt.date = dt.date.today()) -> dict:
         res = self.post.find_one(
             {
                 "location":
@@ -170,7 +173,7 @@ class Database:
                                 "$maxDistance": max_distance
                             }
                     },
-                "timestamp": date
+                "timestamp": date.strftime("%Y%m%d")
             }
         )
         if res:
@@ -179,7 +182,8 @@ class Database:
             out = {
                 "latitude": res.get("location", {}).get("coordinates")[1],
                 "longitude": res.get("location", {}).get("coordinates")[0],
-                "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                # "generation_date": dt.datetime.strptime(date, "%Y%m%d").strftime('%Y-%m-%d %H:%M'),
+                "generation_date": dt.datetime.now().strftime('%Y-%m-%d %H:%M'),
                 "post_harvest_advice": {
                     "dates": f_days,
                     "advice": [res.get(key, "") for key in list(res.keys()) if key.startswith("Time")],
